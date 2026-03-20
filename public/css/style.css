@@ -1,0 +1,279 @@
+:root {
+    /* --- BẢNG MÀU MỚI (RED THEME) --- */
+    --sidebar-bg-start: #8e0e00;  /* Đỏ đậm */
+    --sidebar-bg-end: #1f1c18;    /* Đen pha đỏ (Gradient) */
+    --sidebar-text: #ececec;      /* Trắng xám nhẹ */
+    --sidebar-active-bg: #ffffff; /* Nền trắng cho mục đang chọn */
+    --sidebar-active-text: #b20a2c; /* Chữ đỏ cho mục đang chọn */
+    
+    --primary-color: #d63346;     /* Màu chủ đạo cho các nút/link khác */
+    --sidebar-width: 260px;
+}
+
+body {
+    background-color: #f4f6f9;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* ===========================
+   1. SIDEBAR (RED THEME)
+   =========================== */
+.sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    /* Hiệu ứng Gradient từ Đỏ đậm xuống Đen -> Sang trọng hơn đỏ trơn */
+    background: linear-gradient(180deg, var(--sidebar-bg-start) 0%, var(--sidebar-bg-end) 100%);
+    color: var(--sidebar-text);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    z-index: 1000;
+    box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+}
+
+.sidebar-header {
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.2); /* Làm tối phần header chút */
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.3rem;
+    letter-spacing: 1px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/* Link trong Sidebar */
+.sidebar .nav-link {
+    color: rgba(255, 255, 255, 0.8); /* Màu chữ trắng mờ */
+    padding: 12px 20px;
+    margin: 8px 15px;
+    border-radius: 8px;
+    transition: all 0.2s;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+
+.sidebar .nav-link i {
+    width: 25px;
+    font-size: 1.1rem;
+    text-align: center;
+    transition: margin 0.3s;
+}
+
+/* Hiệu ứng Hover: Sáng lên nhẹ */
+.sidebar .nav-link:hover {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateX(3px);
+}
+
+/* Trạng thái ACTIVE (Đang chọn): Đổi thành nền Trắng, chữ Đỏ */
+.sidebar .nav-link.active {
+    background-color: var(--sidebar-active-bg);
+    color: var(--sidebar-active-text);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    font-weight: bold;
+}
+
+/* Các badge (số thông báo) */
+.sidebar .badge {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Footer Sidebar */
+.sidebar-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* ===========================
+   2. MAIN CONTENT
+   =========================== */
+.main-content {
+    margin-left: var(--sidebar-width);
+    padding: 20px;
+    transition: all 0.3s;
+}
+
+/* ===========================
+   3. TRẠNG THÁI THU GỌN (COLLAPSED) - FIX LỆCH
+   =========================== */
+   
+/* 1. Thu nhỏ thanh sidebar */
+.sidebar.collapsed {
+    width: 80px;
+}
+
+/* 2. Ẩn toàn bộ chữ và các thành phần phụ */
+.sidebar.collapsed .sidebar-header span,
+.sidebar.collapsed .nav-link span, 
+.sidebar.collapsed .badge,
+.sidebar.collapsed small,
+.sidebar.collapsed .sidebar-footer,
+.sidebar.collapsed .logo-text,
+.sidebar.collapsed .menu-text { /* Quan trọng: ẩn class menu-text */
+    display: none !important; 
+}
+
+/* 3. CĂN CHỈNH NÚT BẤM (NAV-LINK) THÀNH HÌNH VUÔNG */
+.sidebar.collapsed .nav-link {
+    display: flex !important;      /* Bắt buộc dùng Flexbox */
+    justify-content: center !important; /* Căn giữa ngang */
+    align-items: center !important;     /* Căn giữa dọc */
+    
+    width: 50px !important;        /* Chiều rộng cố định */
+    height: 50px !important;       /* Chiều cao cố định */
+    
+    margin: 8px auto !important;   /* margin: auto giúp tự động căn giữa trong sidebar 80px */
+    padding: 0 !important;         /* Xóa bỏ padding gây lệch */
+    border-radius: 12px;           /* Bo góc mềm mại */
+}
+
+/* 4. Căn chỉnh Icon bên trong */
+.sidebar.collapsed .nav-link i {
+    margin-right: 0 !important;    /* Xóa khoảng cách bên phải của icon */
+    font-size: 1.5rem !important;  /* Tăng kích thước icon cho cân đối */
+    line-height: 1;                /* Tránh icon bị đẩy lên/xuống */
+}
+
+/* 5. Xử lý Logo Header khi thu gọn */
+.sidebar.collapsed .sidebar-header {
+    padding: 15px 0;
+    display: flex;
+    justify-content: center !important;
+}
+
+.sidebar.collapsed .sidebar-logo {
+    width: 40px;
+    height: 40px;
+    margin: 0 !important;
+}
+
+/* 6. Đẩy nội dung chính ra tương ứng */
+.main-content.expanded {
+    margin-left: 80px;
+}
+
+/* ===========================
+   4. TIỆN ÍCH KHÁC (Cards)
+   =========================== */
+.stat-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    transition: transform 0.2s, box-shadow 0.2s;
+    background: #fff;
+    height: 100% !important; /* Đảm bảo chiều cao bằng nhau */
+}
+
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+/* Màu nền nhạt cho icon trong card */
+.bg-soft-danger { background-color: #ffe5e5; color: #e31c3d; }
+.bg-soft-primary { background-color: #e5f0ff; color: #0d6efd; }
+.bg-soft-success { background-color: #e0f7ea; color: #0fa958; }
+.bg-soft-warning { background-color: #fff8e1; color: #f59e0b; }
+/* --- LOGO STYLING --- */
+
+/* 1. Kích thước logo mặc định */
+.sidebar-logo {
+    width: 50px;         /* Cũ: 35px -> Mới: 50px */
+    height: 50px;        /* Cũ: 35px -> Mới: 50px */
+    object-fit: contain; 
+    transition: all 0.3s; 
+}
+
+/* (Tùy chọn) Tăng cỡ chữ bên cạnh cho cân đối với logo mới */
+.logo-text {
+    font-size: 1.4rem;   /* Cũ: 1.2rem -> Mới: 1.4rem */
+    white-space: nowrap; 
+    transition: opacity 0.3s;
+    margin-left: 10px;   /* Thêm chút khoảng cách với logo */
+}
+
+/* 2. Chỉnh lại Sidebar Header để căn giữa logo và chữ */
+.sidebar-header {
+    display: flex;             /* Dùng Flexbox để căn hàng ngang */
+    align-items: center;       /* Căn giữa theo chiều dọc */
+    justify-content: center;   /* Căn giữa theo chiều ngang */
+    padding: 20px 10px;        /* Canh lề một chút */
+    overflow: hidden;          /* Ẩn phần thừa */
+}
+
+/* 3. Xử lý khi Sidebar THU GỌN (Collapsed) */
+.sidebar.collapsed .sidebar-header {
+    padding: 20px 5px; /* Giảm padding khi thu gọn */
+}
+
+/* Khi thu gọn, ẩn chữ đi */
+.sidebar.collapsed .logo-text {
+    display: none;     /* Ẩn chữ hoàn toàn */
+}
+
+/* Khi thu gọn, logo có thể to hơn một chút hoặc giữ nguyên để cân đối */
+.sidebar.collapsed .sidebar-logo {
+    width: 40px;       /* Tăng nhẹ kích thước khi chỉ còn một mình */
+    height: 40px;
+    margin: 0 auto;    /* Căn giữa tuyệt đối */
+    margin-right: 0 !important; /* Bỏ margin phải (do class me-2 của bootstrap) */
+}
+
+/* --- THÊM VÀO CUỐI FILE style.css --- */
+
+/* Card thiết bị */
+.device-card {
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+
+/* Trạng thái thiết bị đang BẬT */
+.device-card.active {
+    border-color: var(--primary-color);
+    background-color: #f8fff9; /* Nền xanh nhạt */
+}
+
+.device-card.active .device-icon {
+    background-color: var(--primary-color); /* Nền icon thành màu chủ đạo */
+    color: #fff;
+}
+
+/* Icon thiết bị tròn */
+.device-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #f1f3f5;
+    color: #6c757d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    transition: all 0.3s;
+}
+
+/* Hiệu ứng khi Disable (Chế độ tự động) */
+.device-card.disabled {
+    opacity: 0.6;
+    pointer-events: none; /* Không cho bấm */
+    background-color: #e9ecef;
+}
+
+/* Nút switch to hơn chút */
+.form-switch .form-check-input {
+    width: 3em;
+    height: 1.5em;
+    cursor: pointer;
+}

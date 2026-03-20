@@ -1,0 +1,14 @@
+{
+    "name": "huynguyen/project",
+    "description": "Web PHP MVC",
+    "require": {
+        "ext-mysqli": "*",
+        "php-mqtt/client": "^2.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Config\\": "config/"
+        }
+    }
+}
