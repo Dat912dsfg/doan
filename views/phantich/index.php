@@ -115,38 +115,69 @@
         </div>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const ctxRealtime = document.getElementById('realtimeChart').getContext('2d');
-        const rtChart = new Chart(ctxRealtime, {
-            type: 'line',
-            data: {
-                labels: ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00'],
-                datasets: [{
-                    label: 'Giá trị thực tế',
-                    data: [27, 27.5, 28, 29, 30.5, 31, 29.5],
-                    borderColor: '#2563eb',
-                    backgroundColor: 'rgba(37, 99, 235, 0.1)',
-                    tension: 0.4,
-                    fill: true
-                }]
-            },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-        });
+document.addEventListener("DOMContentLoaded", function() {
 
-        const ctxDeviation = document.getElementById('deviationChart').getContext('2d');
-        new Chart(ctxDeviation, {
-            type: 'line',
-            data: {
-                labels: ['0h', '4h', '8h', '12h', '16h', '20h'],
-                datasets: [
-                    { label: 'Giới hạn trên', data: [32, 32, 34, 35, 33, 32], borderColor: '#d1d5db', borderDash: [5, 5], fill: false, pointRadius: 0 },
-                    { label: 'Giá trị đo', data: [28, 27, 29, 31, 29, 28], borderColor: '#1d4ed8', borderWidth: 3, fill: false },
-                    { label: 'Giới hạn dưới', data: [24, 24, 26, 27, 25, 24], borderColor: '#d1d5db', borderDash: [5, 5], fill: false, pointRadius: 0 }
-                ]
-            },
-            options: { responsive: true, maintainAspectRatio: false }
-        });
+    // ================= CHART =================
+    const ctxRealtime = document.getElementById('realtimeChart').getContext('2d');
+
+    const rtChart = new Chart(ctxRealtime, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Giá trị',
+                data: []
+            }]
+        }
     });
+
+    // ================= MQTT =================
+    const clientId = "Web-" + Math.random();
+    const client = new Paho.MQTT.Client(
+        "broker.hivemq.com",
+        8000,
+        "/mqtt",
+        clientId
+    );
+
+    const topic = "nhatro123/room1/sensor";
+
+    client.onConnectionLost = function() {
+        console.log("❌ Mất kết nối MQTT");
+    };
+
+    client.onMessageArrived = function(message) {
+        const data = JSON.parse(message.payloadString);
+
+        console.log("DATA:", data);
+
+        const time = new Date().toLocaleTimeString();
+
+        // ví dụ lấy nhiệt độ
+        rtChart.data.labels.push(time);
+        rtChart.data.datasets[0].data.push(data.temp);
+
+        if (rtChart.data.labels.length > 20) {
+            rtChart.data.labels.shift();
+            rtChart.data.datasets[0].data.shift();
+        }
+
+        rtChart.update();
+    };
+
+    client.connect({
+        onSuccess: () => {
+            console.log("✅ MQTT Connected");
+            client.subscribe(topic);
+        },
+        onFailure: () => {
+            console.log("❌ MQTT Fail");
+        }
+    });
+
+});
 </script>

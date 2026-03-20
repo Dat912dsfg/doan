@@ -3,10 +3,15 @@ header("Content-Type: application/json");
 
 $conn = new mysqli("localhost", "root", "", "iot_db");
 
+if ($conn->connect_error) {
+    echo json_encode(["status"=>"db_error"]);
+    exit;
+}
+
 $data = json_decode(file_get_contents("php://input"), true);
 
 if (!$data) {
-    echo json_encode(["status"=>"error"]);
+    echo json_encode(["status"=>"no_data"]);
     exit;
 }
 
