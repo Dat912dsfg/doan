@@ -1,0 +1,9 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # Nếu truy cập vào gốc, vào thẳng public
+    RewriteRule ^$ public/ [L]
+    
+    # Nếu đường dẫn chưa có chữ "public", thì thêm vào
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
