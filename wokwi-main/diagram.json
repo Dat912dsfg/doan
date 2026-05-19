@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "author": "IoT Nha Tro",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": 57.6, "left": 120.04, "attrs": {} },
+    { "type": "wokwi-dht11", "id": "dht1", "top": -120, "left": -120, "attrs": {} },
+    {
+      "type": "wokwi-pir-motion-sensor",
+      "id": "pir1",
+      "top": -120.8,
+      "left": 587.82,
+      "attrs": {}
+    },
+    { "type": "wokwi-mq2", "id": "mq21", "top": 120, "left": -120, "attrs": {} },
+    { "type": "wokwi-relay-module", "id": "relay1", "top": 38.6, "left": 547.2, "attrs": {} },
+    { "type": "wokwi-buzzer", "id": "buzzer1", "top": 165.6, "left": 645, "attrs": {} },
+    {
+      "type": "wokwi-lcd1602",
+      "id": "lcd1",
+      "top": -300.8,
+      "left": 418.4,
+      "attrs": { "pins": "i2c" }
+    },
+    { "type": "wokwi-dht22", "id": "dht2", "top": -297.3, "left": -15, "attrs": {} },
+    { "type": "wokwi-gas-sensor", "id": "gas1", "top": -563.7, "left": -79.4, "attrs": {} }
+  ],
+  "connections": [
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ],
+    [ "pir1:VCC", "esp:5V", "red", [] ],
+    [ "pir1:GND", "esp:GND.1", "black", [] ],
+    [ "pir1:OUT", "esp:13", "green", [] ],
+    [ "mq21:VCC", "esp:5V", "red", [] ],
+    [ "mq21:GND", "esp:GND.1", "black", [] ],
+    [ "mq21:A0", "esp:34", "green", [] ],
+    [ "relay1:VCC", "esp:5V", "red", [] ],
+    [ "relay1:GND", "esp:GND.1", "black", [] ],
+    [ "relay1:IN", "esp:26", "green", [] ],
+    [ "buzzer1:1", "esp:27", "green", [] ],
+    [ "buzzer1:2", "esp:GND.1", "black", [] ],
+    [ "lcd1:SDA", "esp:21", "green", [] ],
+    [ "lcd1:SCL", "esp:22", "green", [] ],
+    [ "lcd1:VCC", "esp:5V", "red", [] ],
+    [ "lcd1:GND", "esp:GND.1", "black", [] ],
+    [ "dht2:SDA", "esp:15", "green", [ "v182.4", "h240.1", "v230.4" ] ],
+    [ "dht2:VCC", "esp:5V", "red", [ "v0" ] ],
+    [ "dht2:GND", "esp:GND.1", "black", [ "v0" ] ],
+    [ "gas1:VCC", "esp:5V", "red", [ "h0", "v767.1" ] ],
+    [ "gas1:GND", "esp:GND.2", "black", [ "h240", "v613.6" ] ],
+    [ "gas1:AOUT", "esp:34", "green", [ "h0" ] ]
+  ],
+  "dependencies": {}
+}
